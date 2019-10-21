@@ -60,10 +60,8 @@ func neighborCount(board [][]bool, x int, y int, xDim int, yDim int) int {
 	for yChange := -1; yChange <= 1; yChange++ {
 		for xChange := -1; xChange <= 1; xChange++ {
 			if xChange != 0 || yChange != 0 {
-				if inBounds(x+xChange, xDim) && inBounds(y+yChange, yDim) {
-					if board[y+yChange][x+xChange] {
-						neighbors++
-					}
+				if board[makeInBounds(y+yChange, yDim)][makeInBounds(x+xChange, xDim)] {
+					neighbors++
 				}
 			}
 		}
@@ -106,6 +104,11 @@ func simulateGeneration(prevBoard [][]bool, nextBoard [][]bool, xDim int, yDim i
 	}
 }
 
-func inBounds(val, max int) bool {
-	return val >= 0 && val < max
+func makeInBounds(val, max int) int {
+	if val < 0 {
+		return max - 1
+	} else if val >= max {
+		return 0
+	}
+	return val
 }
